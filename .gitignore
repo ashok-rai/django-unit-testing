@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+.tmp
+npm-debug.log
+
+.vscode
+
+
+# Cache
+__pycache__/
+*.pyc
+*~
