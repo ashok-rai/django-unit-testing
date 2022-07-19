@@ -4,7 +4,7 @@ import pytest
 from django.contrib.auth.models import User
 
 from notes.models import Notes
-from .factories import UserFactory
+from .factories import UserFactory, NoteFactory
 
 @pytest.fixture
 def logged_user(client):
@@ -19,14 +19,16 @@ def test_list_endpoint_returns_user_notes(client, logged_user):
     '''
 		Creating two notes for the client
     '''
-    Notes.objects.create(title='Test Note 1', text='', user=logged_user)
-    Notes.objects.create(title='Test Note 2', text='', user=logged_user)
+    # note = Notes.objects.create(title='Test Note 1', text='', user=logged_user)
+    note = NoteFactory(user=logged_user)
+    second_note = NoteFactory(user=logged_user)
     
     response = client.get(path='/smart/notes')
     assert 200 == response.status_code
     
     content = str(response.content)
-    assert 'Test Note 1' in content
+    assert note.title in content
+    assert second_note.title in content
     assert 2 == content.count('<h3>')
     
     
