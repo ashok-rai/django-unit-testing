@@ -5,6 +5,7 @@ npm-debug.log
 
 .vscode
 
+db.sqlite3
 
 # Cache
 __pycache__/

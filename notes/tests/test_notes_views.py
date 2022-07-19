@@ -1,15 +1,15 @@
-from pydoc import cli
-from urllib import response
+
 import pytest
 
 from django.contrib.auth.models import User
 
 from notes.models import Notes
+from .factories import UserFactory
 
 @pytest.fixture
 def logged_user(client):
-    user = User.objects.create_user('John', 'john@test.com', 'pass')
-    client.login(username=user.username, password='pass')
+    user = UserFactory()
+    client.login(username=user.username, password='password')
     return user
     
 
@@ -32,7 +32,8 @@ def test_list_endpoint_returns_user_notes(client, logged_user):
     
 @pytest.mark.django_db
 def test_list_endpoint_only_notes_from_aunthenticated_user(client, logged_user):
-    new_user = User.objects.create_user('Alex', 'alex@test.com', 'pass123')
+    # new_user = User.objects.create_user('Alex', 'alex@test.com', 'pass123')
+    new_user = UserFactory()
     Notes.objects.create(title='New Test Note', text='', user=new_user)
     
     
